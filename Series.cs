@@ -7,12 +7,10 @@ namespace PotterTest
     {
         private readonly int _optimumPivot;
         private readonly List<List<int>>  _series = new List<List<int>>();
-        private readonly Dictionary<int, double> _discounts;
 
-        public Series(IEnumerable<int> basket, Dictionary<int, double> discounts, int optimumPivot)
+        public Series(IEnumerable<int> basket, int optimumPivot)
         {
             _optimumPivot = optimumPivot;
-            _discounts = discounts;
 
             foreach (var book in basket)
             {
@@ -20,43 +18,35 @@ namespace PotterTest
             }
         }
 
-        public double Price()
+        public double Price(Dictionary<int, double> discounts, double bookPrice)
         {
-            double totalPrice = 0.0;
-            foreach (var serie in _series)
+            return _series.Sum(serie => ((IReadOnlyCollection<int>) serie).Count * bookPrice * discounts[serie.Count()]);
+        }
+
+        private void InsertBook(int newBook)
+        {
+            IList<int> serie;
+            if ((serie = LookForExistingSerie(newBook)).Count > 0)
             {
-                var price = PricePerSerie(serie);
-                totalPrice += ApplyDiscountPerSerie(price, serie);
+                serie.Add(newBook);
             }
-            return totalPrice;
+            else
+            {
+                _series.Add(new List<int> { newBook });
+            }
         }
 
-        private double ApplyDiscountPerSerie(double price, IEnumerable<int> serie)
-        {
-            return price - price * _discounts[serie.Count()];
-        }
-
-        private static double PricePerSerie(IReadOnlyCollection<int> serie)
-        {
-            return serie.Count * 8.0;
-        }
-
-        private void InsertBook(int book)
-        {
-            if (!InsertInExistingSerie(book)) _series.Add(new List<int> { book });
-        }
-
-        private bool InsertInExistingSerie(int book)
+        private IList<int> LookForExistingSerie(int newBook)
         {
             foreach (var serie in _series)
             {
-                if (!serie.Contains(book) && serie.Count < _optimumPivot)
+                if (!serie.Contains(newBook) && serie.Count < _optimumPivot)
                 {
-                    serie.Add(book);
-                    return true;
+                    
+                    return serie;
                 }
             }
-            return false;
+            return new List<int>();
         }
     }
 }
