@@ -35,11 +35,11 @@ namespace PotterTest
             }
         }
 
-        private List<int> LookForExistingSerie(int newBookId)
+        private List<int> LookForExistingSerie(int searchBookId)
         {
             foreach (var currentSerie in PoolSeries)
             {
-                if (!currentSerie.Contains(newBookId) && currentSerie.Count < OptimumPivot)
+                if (!currentSerie.Contains(searchBookId) && currentSerie.Count < OptimumPivot)
                 {
                     return currentSerie;
                 }
