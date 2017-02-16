@@ -4,20 +4,11 @@ namespace PotterTest
 {
     public class ShoppingBasket
     {
-        private readonly List<int> _basket = new List<int>();
+        private List<int> Basket { get; } = new List<int>();
         private const int OptimumPivot = 4;
-        private const double BookPrice = 8.0;
+        private const double UnitBookPrice = 8.0;
 
-        private readonly Dictionary<int, double> _discounts = new Dictionary<int, double>
-        {
-            [1] = 1.0,
-            [2] = 0.95,
-            [3] = 0.90,
-            [4] = 0.80,
-            [5] = 0.75
-        };
-
-        private readonly Dictionary<string, int> _bookNamesToIds = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> BookNamesToBookIds = new Dictionary<string, int>
         {
             ["first"] = 1,
             ["second"] = 2,
@@ -25,14 +16,24 @@ namespace PotterTest
             ["fourth"] = 4,
             ["fifth"] = 5
         };
+
+        private readonly Dictionary<int, double> _discounts = new Dictionary<int, double>
+        {
+            [BookNamesToBookIds["first"]] = 1.0,
+            [BookNamesToBookIds["second"]] = 0.95,
+            [BookNamesToBookIds["third"]] = 0.90,
+            [BookNamesToBookIds["fourth"]] = 0.80,
+            [BookNamesToBookIds["fith"]] = 0.75
+        };
+
         public void Add(string newBook)
         {
-            _basket.Add(_bookNamesToIds[newBook]);
+            Basket.Add(BookNamesToBookIds[newBook]);
         }
 
         public double Price()
         {
-            return new Series(_basket, OptimumPivot).Price(_discounts, BookPrice);
+            return new Series(Basket, OptimumPivot).Price(_discounts, UnitBookPrice);
         }
     }
 }

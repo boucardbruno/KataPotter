@@ -5,48 +5,46 @@ namespace PotterTest
 {
     public class Series
     {
-        private readonly int _optimumPivot;
-        private readonly List<List<int>>  _series = new List<List<int>>();
+        private int OptimumPivot { get; }
+        private IList<List<int>> PoolSeries { get; } = new List<List<int>>();
+        private static readonly List<int> EmptySerie = new List<int>();
 
-        public Series(IEnumerable<int> basket, int optimumPivot)
+        public Series(List<int> basket, int optimumPivot)
         {
-            _optimumPivot = optimumPivot;
+            OptimumPivot = optimumPivot;
 
-            foreach (var book in basket)
-            {
-                InsertBook(book);
-            }
+            basket.ForEach(InsertBook);
         }
 
         public double Price(Dictionary<int, double> discounts, double bookPrice)
         {
-            return _series.Sum(serie => ((IReadOnlyCollection<int>) serie).Count * bookPrice * discounts[serie.Count()]);
+            return PoolSeries.Sum(serie => serie.Count * bookPrice * discounts[serie.Count]);
         }
 
-        private void InsertBook(int newBook)
+        private void InsertBook(int newBookId)
         {
-            IList<int> serie;
-            if ((serie = LookForExistingSerie(newBook)).Count > 0)
+            var foundSerie = LookForExistingSerie(newBookId);
+
+            if (foundSerie.Any())
             {
-                serie.Add(newBook);
+                foundSerie.Add(newBookId);
             }
             else
             {
-                _series.Add(new List<int> { newBook });
+                PoolSeries.Add(new List<int> {newBookId});
             }
         }
 
-        private IList<int> LookForExistingSerie(int newBook)
+        private IList<int> LookForExistingSerie(int newBookId)
         {
-            foreach (var serie in _series)
+            foreach (var currentSerie in PoolSeries)
             {
-                if (!serie.Contains(newBook) && serie.Count < _optimumPivot)
+                if (!currentSerie.Contains(newBookId) && currentSerie.Count < OptimumPivot)
                 {
-                    
-                    return serie;
+                    return currentSerie;
                 }
             }
-            return new List<int>();
+            return EmptySerie;
         }
     }
 }
