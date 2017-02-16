@@ -9,16 +9,16 @@ namespace PotterTest
         private IList<List<int>> PoolSeries { get; } = new List<List<int>>();
         private static readonly List<int> EmptySerie = new List<int>();
 
-        public Series(List<int> basket, int optimumPivot)
+        public Series(List<int> shoppingBasket, int optimumPivot)
         {
             OptimumPivot = optimumPivot;
 
-            basket.ForEach(InsertBook);
+            shoppingBasket.ForEach(InsertBook);
         }
 
-        public double Price(Dictionary<int, double> discounts, double bookPrice)
+        public double Price(Dictionary<int, double> bookDiscounts, double bookPrice)
         {
-            return PoolSeries.Sum(serie => serie.Count * bookPrice * discounts[serie.Count]);
+            return PoolSeries.Sum(serie => serie.Count * bookPrice * bookDiscounts[serie.Count]);
         }
 
         private void InsertBook(int newBookId)
@@ -35,7 +35,7 @@ namespace PotterTest
             }
         }
 
-        private IList<int> LookForExistingSerie(int newBookId)
+        private List<int> LookForExistingSerie(int newBookId)
         {
             foreach (var currentSerie in PoolSeries)
             {

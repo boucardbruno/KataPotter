@@ -17,13 +17,13 @@ namespace PotterTest
             ["fifth"] = 5
         };
 
-        private readonly Dictionary<int, double> _discounts = new Dictionary<int, double>
+        private Dictionary<int, double> BookDiscounts { get; } = new Dictionary<int, double>
         {
             [BookNamesToBookIds["first"]] = 1.0,
             [BookNamesToBookIds["second"]] = 0.95,
             [BookNamesToBookIds["third"]] = 0.90,
             [BookNamesToBookIds["fourth"]] = 0.80,
-            [BookNamesToBookIds["fith"]] = 0.75
+            [BookNamesToBookIds["fifth"]] = 0.75
         };
 
         public void Add(string newBook)
@@ -33,7 +33,7 @@ namespace PotterTest
 
         public double Price()
         {
-            return new Series(Basket, OptimumPivot).Price(_discounts, UnitBookPrice);
+            return new Series(Basket, OptimumPivot).Price(BookDiscounts, UnitBookPrice);
         }
     }
 }
