@@ -5,25 +5,24 @@ namespace PotterTest
     public class ShoppingBasket
     {
         private List<int> Basket { get; } = new List<int>();
-        private const int OptimumPivot = 4;
         private const double UnitBookPrice = 8.0;
 
         private static readonly Dictionary<string, int> BookNamesToBookIds = new Dictionary<string, int>
         {
-            ["first"] = 1,
-            ["second"] = 2,
-            ["third"] = 3,
-            ["fourth"] = 4,
-            ["fifth"] = 5
+            ["Harry Potter and the Philosopher's Stone"] = 1,
+            ["Harry Potter and the Chamber of Secrets"] = 2,
+            ["Harry Potter and the Prisoner of Azkaban"] = 3,
+            ["Harry Potter and the Goblet of Fire"] = 4,
+            ["Harry Potter and the Order of the Phoenix"] = 5
         };
 
         private Dictionary<int, double> BookDiscounts { get; } = new Dictionary<int, double>
         {
-            [BookNamesToBookIds["first"]] = 1.0,
-            [BookNamesToBookIds["second"]] = 0.95,
-            [BookNamesToBookIds["third"]] = 0.90,
-            [BookNamesToBookIds["fourth"]] = 0.80,
-            [BookNamesToBookIds["fifth"]] = 0.75
+            [BookNamesToBookIds["Harry Potter and the Philosopher's Stone"]] = 1.0,
+            [BookNamesToBookIds["Harry Potter and the Chamber of Secrets"]] = 0.95,
+            [BookNamesToBookIds["Harry Potter and the Prisoner of Azkaban"]] = 0.90,
+            [BookNamesToBookIds["Harry Potter and the Goblet of Fire"]] = 0.80,
+            [BookNamesToBookIds["Harry Potter and the Order of the Phoenix"]] = 0.75
         };
 
         public void Add(string newBook)
@@ -33,7 +32,7 @@ namespace PotterTest
 
         public double Price()
         {
-            return new Series(Basket, OptimumPivot).Price(BookDiscounts, UnitBookPrice);
+            return new Series().Price(Basket, BookDiscounts, UnitBookPrice);
         }
     }
 }

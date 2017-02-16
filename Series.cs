@@ -5,46 +5,47 @@ namespace PotterTest
 {
     public class Series
     {
-        private int OptimumPivot { get; }
-        private IList<List<int>> PoolSeries { get; } = new List<List<int>>();
-        private static readonly List<int> EmptySerie = new List<int>();
-
-        public Series(List<int> shoppingBasket, int optimumPivot)
+        public double Price(List<int> shoppingBasket, Dictionary<int, double> bookDiscounts, double bookPrice)
         {
-            OptimumPivot = optimumPivot;
-
-            shoppingBasket.ForEach(InsertBook);
+            return ComputeBestPrice(shoppingBasket, bookDiscounts, bookPrice);
         }
 
-        public double Price(Dictionary<int, double> bookDiscounts, double bookPrice)
+        private static double ComputeBestPrice(List<int> shoppingBasket, IReadOnlyDictionary<int, double> bookDiscounts, double bookPrice)
         {
-            return PoolSeries.Sum(serie => serie.Count * bookPrice * bookDiscounts[serie.Count]);
+            return bookDiscounts.Select(v => PriceSeries(shoppingBasket, bookDiscounts, bookPrice, v.Key)).Min();
         }
 
-        private void InsertBook(int newBookId)
+        private static double PriceSeries(List<int> shoppingBasket, IReadOnlyDictionary<int, double> bookDiscounts, double bookPrice, int pivot)
         {
-            var foundSerie = LookFor(newBookId);
+            var series = new List<List<int>>();
+            shoppingBasket.ForEach(book => InsertBook(book, series, pivot));
+            return series.Sum(serie => serie.Count * bookPrice * bookDiscounts[serie.Count]);
+        }
+
+        private static void InsertBook(int searchBookId, ICollection<List<int>> series, int optimumPivot)
+        {
+            var foundSerie = LookForSerieWithoutThisBook(series, searchBookId, optimumPivot);
 
             if (foundSerie.Any())
             {
-                foundSerie.Add(newBookId);
+                foundSerie.Add(searchBookId);
             }
             else
             {
-                PoolSeries.Add(new List<int> {newBookId});
+                series.Add(new List<int> {searchBookId});
             }
         }
 
-        private List<int> LookFor(int searchBookId)
+        private static List<int> LookForSerieWithoutThisBook(IEnumerable<List<int>> series, int searchBookId, int optimumPivot)
         {
-            foreach (var currentSerie in PoolSeries)
+            foreach (var currentSerie in series)
             {
-                if (!currentSerie.Contains(searchBookId) && currentSerie.Count < OptimumPivot)
+                if (!currentSerie.Contains(searchBookId) && currentSerie.Count < optimumPivot)
                 {
                     return currentSerie;
                 }
             }
-            return EmptySerie;
+            return new List<int>();
         }
     }
 }
