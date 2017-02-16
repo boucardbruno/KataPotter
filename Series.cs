@@ -23,7 +23,7 @@ namespace PotterTest
 
         private void InsertBook(int newBookId)
         {
-            var foundSerie = LookForExistingSerie(newBookId);
+            var foundSerie = LookFor(newBookId);
 
             if (foundSerie.Any())
             {
@@ -35,7 +35,7 @@ namespace PotterTest
             }
         }
 
-        private List<int> LookForExistingSerie(int searchBookId)
+        private List<int> LookFor(int searchBookId)
         {
             foreach (var currentSerie in PoolSeries)
             {
