@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace PotterTest
 {
-    public class Series
+    public static class Series
     {
-        public double Price(List<int> shoppingBasket, Dictionary<int, double> bookDiscounts, double bookPrice)
+        public static double Price(List<int> shoppingBasket, Dictionary<int, double> bookDiscounts, double bookPrice)
         {
             return ComputeBestPrice(shoppingBasket, bookDiscounts, bookPrice);
         }
@@ -19,16 +19,16 @@ namespace PotterTest
         {
             var series = new List<List<int>>();
             shoppingBasket.ForEach(book => InsertBook(book, series, pivot));
-            return series.Sum(serie => serie.Count * bookPrice * bookDiscounts[serie.Count]);
+            return series.Sum(books => books.Count * bookPrice * bookDiscounts[books.Count]);
         }
 
         private static void InsertBook(int searchBookId, ICollection<List<int>> series, int optimumPivot)
         {
-            var foundSerie = LookForSerieWithoutThisBook(series, searchBookId, optimumPivot);
+            var foundBooks = LookForBooksWithoutThisBook(series, searchBookId, optimumPivot);
 
-            if (foundSerie.Any())
+            if (foundBooks.Any())
             {
-                foundSerie.Add(searchBookId);
+                foundBooks.Add(searchBookId);
             }
             else
             {
@@ -36,13 +36,13 @@ namespace PotterTest
             }
         }
 
-        private static List<int> LookForSerieWithoutThisBook(IEnumerable<List<int>> series, int searchBookId, int optimumPivot)
+        private static List<int> LookForBooksWithoutThisBook(IEnumerable<List<int>> series, int searchBookId, int optimumPivot)
         {
-            foreach (var currentSerie in series)
+            foreach (var currentBooks in series)
             {
-                if (!currentSerie.Contains(searchBookId) && currentSerie.Count < optimumPivot)
+                if (!currentBooks.Contains(searchBookId) && currentBooks.Count < optimumPivot)
                 {
-                    return currentSerie;
+                    return currentBooks;
                 }
             }
             return new List<int>();

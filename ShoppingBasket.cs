@@ -32,7 +32,7 @@ namespace PotterTest
 
         public double Price()
         {
-            return new Series().Price(Basket, BookDiscounts, UnitBookPrice);
+            return Series.Price(Basket, BookDiscounts, UnitBookPrice);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace PotterTest
         }
 
         [Test]
-        public void Should_pay_15_2_euros_with_5_percent_discount_when_buy_two_distincts_books()
+        public void Should_pay_15_2_euros_with_5_percent_discount_when_buy_two_distinct_books()
         {
             _shoppingBasket.Add("Harry Potter and the Philosopher's Stone");
             _shoppingBasket.Add("Harry Potter and the Chamber of Secrets");
@@ -39,7 +39,7 @@ namespace PotterTest
             Check.That(_shoppingBasket.Price()).IsEqualTo(15.2);
         }
         [Test]
-        public void Should_pay_21_6_euros_with_10_percent_discount_when_buy_three_distincts_books()
+        public void Should_pay_21_6_euros_with_10_percent_discount_when_buy_three_distinct_books()
         {
             _shoppingBasket.Add("Harry Potter and the Philosopher's Stone");
             _shoppingBasket.Add("Harry Potter and the Chamber of Secrets");
@@ -49,7 +49,7 @@ namespace PotterTest
         }
 
         [Test]
-        public void Should_pay_25_6_euros_with_20_percent_discount_when_buy_four_disctinct_books()
+        public void Should_pay_25_6_euros_with_20_percent_discount_when_buy_four_distinct_books()
         {
             _shoppingBasket.Add("Harry Potter and the Philosopher's Stone");
             _shoppingBasket.Add("Harry Potter and the Chamber of Secrets");
