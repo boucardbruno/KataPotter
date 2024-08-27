@@ -30,7 +30,6 @@ public static class Series
         var foundBooksWithoutThisBook = series.LookForBooksWithoutThisBook(searchBookId, optimumPivot);
 
         if (foundBooksWithoutThisBook.Any())
-            // We added the book founded to the right books series.
             foundBooksWithoutThisBook.Add(searchBookId);
         else
             series.Add([searchBookId]);
