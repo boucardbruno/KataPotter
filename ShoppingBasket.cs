@@ -33,6 +33,6 @@ public class ShoppingBasket
 
     public double Price()
     {
-        return Series.Price(Basket, BookDiscounts, UnitBookPrice);
+        return PricingBooks.Price(Basket, BookDiscounts, UnitBookPrice);
     }
 }

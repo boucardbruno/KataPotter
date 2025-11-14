@@ -60,7 +60,7 @@
     <ItemGroup>
         <Compile Include="PotterTests.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="Series.cs"/>
+        <Compile Include="PricingBooks.cs" />
         <Compile Include="ShoppingBasket.cs"/>
     </ItemGroup>
     <ItemGroup>
